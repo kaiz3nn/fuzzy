@@ -24,7 +24,7 @@ def colorize_status_code(status_code):
     else:
         return str(status_code)
 
-def fuzz_domains(domains, wordlist, output_file, match_codes):
+def fuzz_domains(domains, wordlist, output_file, match_codes, hide_errors):
     with open(wordlist, 'r') as fuzz_file:
         fuzz_words = [line.strip() for line in fuzz_file.readlines()]
 
@@ -39,9 +39,9 @@ def fuzz_domains(domains, wordlist, output_file, match_codes):
                     if not match_codes or response.status_code in match_codes:
                         output.write(f"[{status_colored}] {url}\n")
                         print(f"[{status_colored}] {url}")
-
                 except requests.RequestException as e:
-                    print(colored(f"[-] Error with {url}: {e}", 'red'))
+                    if not hide_errors:
+                        print(colored(f"[-] Error with {url}: {e}", 'red'))
 
 def main():
     try:
@@ -51,6 +51,7 @@ def main():
         parser.add_argument("-w", "--wordlist", required=True, help="Fuzzing wordlist filename")
         parser.add_argument("-o", "--output", default="output.txt", help="Output filename (default: output.txt)")
         parser.add_argument("-mc", "--match-codes", type=int, nargs="+", help="Filter codes to match (e.g., 200 302)")
+        parser.add_argument("--hide-errors", action="store_true", help="Hide errors in the output")
 
         args = parser.parse_args()
 
@@ -64,7 +65,7 @@ def main():
             with open(args.file, 'r') as file:
                 domains = [line.strip() for line in file.readlines()]
 
-        fuzz_domains(domains, args.wordlist, args.output, args.match_codes)
+        fuzz_domains(domains, args.wordlist, args.output, args.match_codes, args.hide_errors)
 
     except KeyboardInterrupt:
         print("\nScript terminated by user.")
