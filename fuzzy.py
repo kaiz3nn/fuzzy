@@ -3,6 +3,14 @@ import requests
 import argparse
 from termcolor import colored
 
+print(r'''
+█▀▀ █░░█ ▀▀█ ▀▀█ █░░█ 
+█▀▀ █░░█ ▄▀░ ▄▀░ █▄▄█ 
+▀░░ ░▀▀▀ ▀▀▀ ▀▀▀ ▄▄▄█
+
+By kaiz3nn
+Dhane Ashely Diabajo''')
+
 def colorize_status_code(status_code):
     if status_code == 200:
         return colored(str(status_code), 'green')
