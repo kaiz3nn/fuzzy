@@ -38,33 +38,36 @@ def fuzz_domains(domains, wordlist, output_file, match_codes):
 
                     if not match_codes or response.status_code in match_codes:
                         output.write(f"[{status_colored}] {url}\n")
-
-                    print(f"[{status_colored}] {url}")
+                        print(f"[{status_colored}] {url}")
 
                 except requests.RequestException as e:
                     print(colored(f"[-] Error with {url}: {e}", 'red'))
 
 def main():
-    parser = argparse.ArgumentParser(description="Simple domain fuzzing tool.")
-    parser.add_argument("-l", "--domains", nargs="+", help="List of domains separated by space")
-    parser.add_argument("-f", "--file", help="File containing domains")
-    parser.add_argument("-w", "--wordlist", required=True, help="Fuzzing wordlist filename")
-    parser.add_argument("-o", "--output", default="output.txt", help="Output filename (default: output.txt)")
-    parser.add_argument("-mc", "--match-codes", type=int, nargs="+", help="Filter codes to match (e.g., 200 302)")
+    try:
+        parser = argparse.ArgumentParser(description="Simple domain fuzzing tool.")
+        parser.add_argument("-l", "--domains", nargs="+", help="List of domains separated by space")
+        parser.add_argument("-f", "--file", help="File containing domains")
+        parser.add_argument("-w", "--wordlist", required=True, help="Fuzzing wordlist filename")
+        parser.add_argument("-o", "--output", default="output.txt", help="Output filename (default: output.txt)")
+        parser.add_argument("-mc", "--match-codes", type=int, nargs="+", help="Filter codes to match (e.g., 200 302)")
 
-    args = parser.parse_args()
+        args = parser.parse_args()
 
-    if not args.domains and not args.file:
-        print("Error: Please provide either a list of domains or a file containing domains.")
-        return
+        if not args.domains and not args.file:
+            print("Error: Please provide either a list of domains or a file containing domains.")
+            return
 
-    if args.domains:
-        domains = args.domains
-    else:
-        with open(args.file, 'r') as file:
-            domains = [line.strip() for line in file.readlines()]
+        if args.domains:
+            domains = args.domains
+        else:
+            with open(args.file, 'r') as file:
+                domains = [line.strip() for line in file.readlines()]
 
-    fuzz_domains(domains, args.wordlist, args.output, args.match_codes)
+        fuzz_domains(domains, args.wordlist, args.output, args.match_codes)
+
+    except KeyboardInterrupt:
+        print("\nScript terminated by user.")
 
 if __name__ == "__main__":
     main()
