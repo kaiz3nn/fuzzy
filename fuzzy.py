@@ -24,7 +24,7 @@ def colorize_status_code(status_code):
     else:
         return str(status_code)
 
-def fuzz_domains(domains, wordlist, output_file, match_code):
+def fuzz_domains(domains, wordlist, output_file, match_codes):
     with open(wordlist, 'r') as fuzz_file:
         fuzz_words = [line.strip() for line in fuzz_file.readlines()]
 
@@ -36,7 +36,7 @@ def fuzz_domains(domains, wordlist, output_file, match_code):
                     response = requests.get(url, timeout=5)
                     status_colored = colorize_status_code(response.status_code)
 
-                    if not match_code or response.status_code == match_code:
+                    if not match_codes or response.status_code in match_codes:
                         output.write(f"[{status_colored}] {url}\n")
 
                     print(f"[{status_colored}] {url}")
@@ -50,7 +50,7 @@ def main():
     parser.add_argument("-f", "--file", help="File containing domains")
     parser.add_argument("-w", "--wordlist", required=True, help="Fuzzing wordlist filename")
     parser.add_argument("-o", "--output", default="output.txt", help="Output filename (default: output.txt)")
-    parser.add_argument("-mc", "--match-code", type=int, help="Filter codes to match (e.g., 200)")
+    parser.add_argument("-mc", "--match-codes", type=int, nargs="+", help="Filter codes to match (e.g., 200 302)")
 
     args = parser.parse_args()
 
@@ -64,7 +64,7 @@ def main():
         with open(args.file, 'r') as file:
             domains = [line.strip() for line in file.readlines()]
 
-    fuzz_domains(domains, args.wordlist, args.output, args.match_code)
+    fuzz_domains(domains, args.wordlist, args.output, args.match_codes)
 
 if __name__ == "__main__":
     main()
