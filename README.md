@@ -18,4 +18,6 @@ python fuzzy.py -f domains.txt -w wordlist.txt -o output.txt
 
 ### Running the Script
 
-1. Clone or download the repository: git clone https://github.com/yourusername/domain-fuzzing-tool.git
+1. Clone or download the repository: git clone (https://github.com/kaiz3nn/fuzzy.git)https://github.com/kaiz3nn/fuzzy.git
+2. cd fuzzy
+3. chmod +x fuzzy.py
