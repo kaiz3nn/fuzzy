@@ -2,14 +2,14 @@ import os
 import requests
 import argparse
 from termcolor import colored
-
-print(r'''
+header = colored(r'''
 █▀▀ █░░█ ▀▀█ ▀▀█ █░░█ 
 █▀▀ █░░█ ▄▀░ ▄▀░ █▄▄█ 
 ▀░░ ░▀▀▀ ▀▀▀ ▀▀▀ ▄▄▄█
 
-By kaiz3nn
-Dhane Ashely Diabajo''')
+Kaiz3nn | Dhane Ashley Diabajo''', 'green')
+
+print(header)
 
 def colorize_status_code(status_code):
     if status_code == 200:
