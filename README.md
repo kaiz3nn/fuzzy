@@ -6,6 +6,7 @@ This is a simple Python script for domain fuzzing, allowing you to test a list o
 
 ## Usage
 python fuzz_domains.py -l domain1.com domain2.com -w wordlist.txt -o output.txt -mc 200
+
 python fuzz_domains.py -f domains.txt -w wordlist.txt -o output.txt
 
 
